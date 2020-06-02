@@ -18,11 +18,14 @@ public class PathFinder {
 
   private static int bountyChoseCount = 3;    // max число bounty, которые будем рассматривать
   private static int evilTicks = 0;
+  private static int myLength = 0;    // моя текущая длина
 
   private static Comparator<BoardElement> comparatorBounties = (el1, el2) -> {   // APPLE, GOLD, FURY_PILL, FLYING_PILL
     if (el1.equals(el2)) {return 0; }
     if (el1 == BoardElement.FURY_PILL)  { return -1; }
     if (el2 == BoardElement.FURY_PILL)  { return 1; }
+    if (el1 == BoardElement.APPLE && myLength < 3) {return -1; }
+    if (el2 == BoardElement.APPLE && myLength < 3) {return 1; }
     if (el1 == BoardElement.GOLD) {return -1; }
     if (el2 == BoardElement.GOLD) {return 1; }
     if (el1 == BoardElement.APPLE) {return 1;}
@@ -36,6 +39,8 @@ public class PathFinder {
     if (el2 == BoardElement.FURY_PILL && evilTicks < 5)  { return 1; }
     if (el1 == BoardElement.FURY_PILL && evilTicks >= 5)  { return 1; }
     if (el2 == BoardElement.FURY_PILL && evilTicks >= 5)  { return -1; }
+    if (el1 == BoardElement.APPLE && myLength < 3) {return -1; }
+    if (el2 == BoardElement.APPLE && myLength < 3) {return 1; }
     if (el1 == BoardElement.GOLD) {return -1; }
     if (el2 == BoardElement.GOLD) {return 1; }
     if (el1 == BoardElement.STONE && evilTicks < 1) {return 1;}
@@ -48,7 +53,7 @@ public class PathFinder {
   public static Direction Dijkstra(GameBoard gameBoard, State state, int evilCount, Direction prevDirection) {
 
     evilTicks = evilCount;
-
+    // System.out.println("evil Ticks: " + evilTicks);
     BoardPoint start = gameBoard.getMyHead();
     Map<BoardPoint, Integer> frontier = new HashMap<>();  // очередь с приоритетом
     frontier.put(start, 0);
@@ -77,6 +82,8 @@ public class PathFinder {
     fullMe.addAll(myBody);
     fullMe.addAll(myTail);
     fullMe.add(gameBoard.getMyHead());
+
+    myLength = fullMe.size();
 
     List<BoardPoint> enemies = gameBoard.getEnemies();
 
@@ -175,8 +182,6 @@ public class PathFinder {
 
   public static int cost(BoardPoint point, BoardElement elem, State state, List<BoardPoint> body, List<BoardPoint> tail,
       List<BoardPoint> enemies, List<BoardPoint> stones) {    // веса для небарьеров и ненаград
-
-    int myLength = body.size() + tail.size() + 1;
 
     if (tail.contains(point)) { return 6; }
     if (body.contains(point)) { return 9; }

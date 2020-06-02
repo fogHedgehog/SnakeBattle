@@ -38,12 +38,19 @@ public class Strategy {
       return prevDirection;
     }
 
-    if (prevState == State.SLEEP && curState == State.USUAL)
+    if (prevState == State.SLEEP && curState == State.USUAL) {
       prevDirection = gameBoard.getMyDirection();
-    if (prevState != State.EVIL && curState == State.EVIL)
+      prevState = State.USUAL;
+    }
+    if (prevState != State.EVIL && curState == State.EVIL) {
       evilTicks = maxEvilTicks;
-    else if (evilTicks > 0)
+      prevState = State.EVIL;
+    } else if (evilTicks > 0) {
       evilTicks--;
+      prevState = State.EVIL;
+    } else {
+      prevState = State.USUAL;
+    }
 
     Direction bestDirection = PathFinder.Dijkstra(gameBoard, curState, evilTicks, prevDirection);
 
