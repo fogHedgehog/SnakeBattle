@@ -12,10 +12,10 @@ public class Main {
         SnakeBattleClient client = new SnakeBattleClient(SERVER_ADDRESS);
         client.run(
             gameBoard -> {
-                // long startTime = System.currentTimeMillis();
+               // long startTime = System.currentTimeMillis();
                 Direction direction = Strategy.getBestDirection(gameBoard);
-                // long endTime = System.currentTimeMillis();
-                // System.out.println("Total execution time: " + (endTime-startTime) + "ms");
+                //long endTime = System.currentTimeMillis();
+                //System.out.println("Total execution time: " + (endTime-startTime) + "ms");
                 boolean act = Strategy.getBestAct();
                 return new SnakeAction(act, direction);
             });

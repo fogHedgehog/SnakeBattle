@@ -48,7 +48,7 @@ public class GameBoard {
       };
 
   @Getter
-  public static BoardElement[] barriers = new BoardElement[] {WALL, START_FLOOR, STONE};
+  public static BoardElement[] barriers = new BoardElement[] {WALL, START_FLOOR};
 
   @Getter
   public static BoardElement[] evilBarriers = new BoardElement[] {WALL, START_FLOOR, ENEMY_HEAD_SLEEP};

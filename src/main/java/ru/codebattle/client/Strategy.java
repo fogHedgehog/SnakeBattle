@@ -41,11 +41,12 @@ public class Strategy {
     if (prevState == State.SLEEP && curState == State.USUAL)
       prevDirection = gameBoard.getMyDirection();
     if (prevState != State.EVIL && curState == State.EVIL)
-      evilTicks = maxEvilTicks - 1;
+      evilTicks = maxEvilTicks;
     else if (evilTicks > 0)
       evilTicks--;
 
-    Direction bestDirection = PathFinder.BFS(gameBoard, curState);
+    Direction bestDirection = PathFinder.Dijkstra(gameBoard, curState, evilTicks, prevDirection);
+
     prevDirection = bestDirection;
 
     return bestDirection;
@@ -65,6 +66,25 @@ public class Strategy {
       state = State.DEAD;
     }
     return state;
+  }
+
+  public static Direction getOppositeDirection(Direction direction) {
+    Direction oppositeDirection = Direction.STOP;
+    switch (direction) {
+      case LEFT:
+        oppositeDirection = Direction.RIGHT;
+      break;
+      case RIGHT:
+        oppositeDirection = Direction.LEFT;
+        break;
+      case UP:
+        oppositeDirection = Direction.DOWN;
+        break;
+      case DOWN:
+        oppositeDirection = Direction.UP;
+        break;
+    }
+    return oppositeDirection;
   }
 
 }
