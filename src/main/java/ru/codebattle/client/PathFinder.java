@@ -188,7 +188,7 @@ public class PathFinder {
     if (state == State.USUAL) {
       if (stones.contains(point) && myLength > 5 ) { return 7; }
       if (stones.contains(point) && myLength <= 5 ) { return 15; }
-      if (enemies.contains(point) && myLength > 5) { return 4; }
+      if (enemies.contains(point) && myLength > 5) { return 10; }
       if (enemies.contains(point) && myLength <= 5) { return 15; }
     } else if (state == State.EVIL) {
       if (elem == BoardElement.ENEMY_HEAD_EVIL) { return 20; }
